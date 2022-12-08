@@ -24,15 +24,21 @@ router.post(
     let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ success, errors: errors.array() });
+      return res.json({
+        success,
+        errors: errors.array(),
+        message: "Invalid Input",
+      });
     }
     try {
       //  Check if the user already exists with the same email
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res
-          .status(400)
-          .json({ success, errors: [{ msg: "User already exists" }] });
+        return res.json({
+          success,
+          errors: [{ msg: "User already exists" }],
+          message: "User already exists",
+        });
       }
 
       // if no errors then create a new user
@@ -52,10 +58,10 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_KEY);
       success = true;
-      res.json({ success, authToken });
+      res.json({ success, authToken, message: "Login Successful" });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("some Internal error occurred");
+      res.json({ success, message: "Some Internal error occurred" });
     }
   }
 );
@@ -68,15 +74,13 @@ router.post(
   [body("email").isEmail(), body("password").exists()],
   async (req, res) => {
     let success = false;
-    // check for the errors
-    // console.log(
-    //   "received user data at backend:",
-    //   req.body.email,
-    //   req.body.password
-    // );
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ success, errors: errors.array() });
+      return res.json({
+        success,
+        errors: errors.array(),
+        message: "Enter a valid data",
+      });
     }
     try {
       const { email, password } = req.body;
@@ -84,9 +88,10 @@ router.post(
       //  Check if the user already exists with the same email
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({
+        return res.json({
           success,
           errors: [{ error: "Please use correct email credentials" }],
+          message: "Please use correct email credentials",
         });
       }
 
@@ -94,9 +99,10 @@ router.post(
       const validatePass = await bcrypt.compare(password, user.password);
 
       if (!validatePass) {
-        return res.status(400).json({
+        return res.json({
           success,
           errors: [{ error: "Please use correct password credentials" }],
+          message: "Please use correct password credentials",
         });
       }
 
@@ -107,10 +113,10 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_KEY);
       success = true;
-      res.json({ success, authToken });
+      res.json({ success, authToken, message: "Login Successful" });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("some error occurred");
+      res.status(500).json({ message: "Some Internal error occurred" });
     }
   }
 );

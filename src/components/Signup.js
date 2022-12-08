@@ -3,10 +3,11 @@ import loginImg from "../Add notes-bro.png";
 import siteLogo from "../logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import credContext from "./context/credentials/credContext";
+import Alert from "./Alert";
 
 function Signup() {
   const context = useContext(credContext);
-  const { userSignup } = context;
+  const { userSignup, showAlert, alert } = context;
   //   let history = useHistory();
   const navigate = useNavigate();
   const [cred, setCred] = useState({
@@ -18,13 +19,16 @@ function Signup() {
 
   const signup = async (e) => {
     e.preventDefault();
-    // console.log(credentials);
+
     const json = await userSignup(cred.name, cred.email, cred.password);
-    console.log(json);
     if (json.success) {
       localStorage.setItem("token", json.authToken);
       navigate("/home");
-    } else navigate("/login");
+      showAlert(json.message, "success");
+    } else {
+      navigate("/login");
+      showAlert(json.message, "Error");
+    }
   };
 
   const updateValue = (e) => {
@@ -32,6 +36,7 @@ function Signup() {
   };
   return (
     <>
+      {alert && <Alert alert={alert} />}
       <section className="h-screen bg-[#FEFCF3]">
         <div className="px-6 h-full text-gray-800">
           <div className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">

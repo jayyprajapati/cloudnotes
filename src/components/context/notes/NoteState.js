@@ -3,12 +3,15 @@ import noteContext from "./noteContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:8000";
-  const startingNotes = [];
 
+  const startingNotes = [];
   const [notes, setnotes] = useState(startingNotes);
+
+  // –––––––––––––––––––––––––– Get all notes of a user ––––––––––––––––––––––––––
 
   const getNotes = async () => {
     const url = `${host}/api/notes/allnotes`;
+    // send request to server
     const response = await fetch(url, {
       method: "GET",
       mode: "cors",
@@ -17,12 +20,16 @@ const NoteState = (props) => {
         "auth-token": localStorage.getItem("token"),
       },
     });
+    // wait for response
     const json = await response.json();
     setnotes(json);
   };
 
+  // –––––––––––––––––––––––––– Add new Note ––––––––––––––––––––––––––
+
   const addNote = async (title, description, tag) => {
     const url = `${host}/api/notes/addnote`;
+    // send request to server
     const response = await fetch(url, {
       method: "POST",
       mode: "cors",
@@ -30,16 +37,21 @@ const NoteState = (props) => {
         "auth-token": localStorage.getItem("token"),
         "Content-Type": "application/json",
       },
-
+      // send user data
       body: JSON.stringify({ title, description, tag }),
     });
-    const newnote = await response.json();
-
-    setnotes(notes.concat(newnote));
+    // wait for response
+    const json = await response.json();
+    setnotes(notes.concat(json));
+    // send response
+    return json;
   };
+
+  // –––––––––––––––––––––––––– Delete Note ––––––––––––––––––––––––––
 
   const deleteNote = async (id) => {
     const url = `${host}/api/notes/deletenote/${id}`;
+    // send request to server
     const response = await fetch(url, {
       method: "DELETE",
       mode: "cors",
@@ -47,15 +59,21 @@ const NoteState = (props) => {
         "auth-token": localStorage.getItem("token"),
       },
     });
-    await response.json();
+    // wait for response
+    const json = await response.json();
     const newNote = notes.filter((note) => {
       return note._id !== id;
     });
     setnotes(newNote);
+    // send response
+    return json;
   };
+
+  // –––––––––––––––––––––––––– Edit/Update Note ––––––––––––––––––––––––––
 
   const editNote = async (id, title, description, tag) => {
     const url = `${host}/api/notes/updatenote/${id}`;
+    // send request to server
     const response = await fetch(url, {
       method: "PUT",
       mode: "cors",
@@ -63,12 +81,14 @@ const NoteState = (props) => {
         "auth-token": localStorage.getItem("token"),
         "Content-Type": "application/json",
       },
+      // send user data
       body: JSON.stringify({ title, description, tag }),
     });
-    await response.json();
-
+    // wait for response
+    const json = await response.json();
+    // Copy the response and create a new note out of it
     const newNotes = JSON.parse(JSON.stringify(notes));
-
+    // edit that new note
     for (let index = 0; index < newNotes.length; index++) {
       const element = newNotes[index];
       if (element._id === id) {
@@ -78,8 +98,10 @@ const NoteState = (props) => {
         break;
       }
     }
+    // set new updated note to notes array
     setnotes(newNotes);
-    return;
+    // send response
+    return json;
   };
 
   return (

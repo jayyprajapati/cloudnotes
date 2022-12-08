@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 // import { Link } from "react-router-dom";
-import noteContext from "./context/notes/noteContext";
+// import noteContext from "./context/notes/noteContext";
+// import credContext from "./context/credentials/credContext";
 
 function formatDate(date) {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -33,16 +34,16 @@ function formatDate(date) {
 }
 
 function Noteitem(props) {
-  const context = useContext(noteContext);
-  const { deleteNote } = context;
-  const { note, updateNote } = props;
+  // const context = useContext(noteContext);
+  // const { deleteNote } = context;
+  const { note, updateNote, delNote } = props;
 
   const strDate = new Date(note.date);
   const [finalDate, finalTime] = formatDate(strDate);
 
-  const deleteThisNote = () => {
-    deleteNote(note._id);
-  };
+  // const deleteThisNote = () => {
+  //   deleteNote(note._id);
+  // };
 
   return (
     <>
@@ -70,7 +71,7 @@ function Noteitem(props) {
             {note.tag}
           </span>
           <div className=" justify-between text-[#495057]  space-x-8">
-            <button onClick={deleteThisNote}>
+            <button onClick={() => delNote(note._id)}>
               <span data-tooltip="Delete" data-flow="top">
                 <i className="fa-regular fa-trash-can hover:text-[23px] fa-lg"></i>
               </span>

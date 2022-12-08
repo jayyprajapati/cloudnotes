@@ -2,10 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import noteContext from "../context/notes/noteContext";
 import Navbar from "../Navbar";
-// import {useHref} from "react-router-dom";
+import credContext from "../context/credentials/credContext";
 
 function Addnote() {
   const navigate = useNavigate();
+
+  const credcontext = useContext(credContext);
+  const { showAlert } = credcontext;
 
   const context = useContext(noteContext);
   const { addNote } = context;
@@ -27,8 +30,10 @@ function Addnote() {
 
   const addNewNote = async (e) => {
     e.preventDefault();
-    await addNote(note.title, note.description, note.tag);
+    const json = await addNote(note.title, note.description, note.tag);
     navigate("/home");
+    const status = json.success ? "success" : "Error";
+    showAlert(json.message, status);
   };
 
   const updateValue = (e) => {
@@ -110,14 +115,12 @@ function Addnote() {
                   onChange={updateValue}
                   required
                 >
-                  {/* <option>Select...</option> */}
                   <option>General</option>
                   <option>Personal</option>
                   <option>Work</option>
                   <option>Relax</option>
                   <option>Task</option>
                   <option>List</option>
-                  {/* <option>None</option> */}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
                   <i className="fa-solid fa-caret-down"></i>

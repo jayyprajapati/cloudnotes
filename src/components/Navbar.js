@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import credContext from "./context/credentials/credContext";
 
 function Navbar() {
   const navigate = useNavigate();
+  const context = useContext(credContext);
+  const { showAlert } = context;
+
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
+    showAlert("Logged out successfully", "success");
   };
   return (
     <>

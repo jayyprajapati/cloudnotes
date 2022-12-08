@@ -6,6 +6,7 @@
     "cpassword",
     "credcontext",
     "deletenote",
+    "delref",
     "edescription",
     "Editnote",
     "etitle",

@@ -1,23 +1,45 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import Noteitem from "./Noteitem";
 import noteContext from "./context/notes/noteContext";
+import credContext from "./context/credentials/credContext";
 import { useNavigate } from "react-router-dom";
-// import EditModal from "./EditModal";
+import Alert from "./Alert";
+
 function Notes() {
+  // Access note context and note states
   const context = useContext(noteContext);
-  const { notes, getNotes, editNote } = context;
+  const { notes, getNotes, editNote, deleteNote } = context;
+
+  // Access credentials context and credentials states
+  const credcontext = useContext(credContext);
+  const { showAlert, alert } = credcontext;
+
+  // navigate functionality to navigate from one endpoint to another
   let navigate = useNavigate();
+
+  // edit modal states
   const [showModal, setShowModal] = useState(false);
+
+  // note states
   const [note, setNote] = useState({
     id: "",
     etitle: "",
     edescription: "",
     etag: "General",
   });
+
+  // Ref for edit button
   const ref = useRef(null);
 
+  // Ref for delete button
+  const delref = useRef(null);
+
+  // Open edit modal WHEN button triggered by each edit icon
   const updateNote = (currentNote) => {
+    // click edit button using ref and open edit modal
     ref.current.click();
+
+    // set new note attribute values to note state
     setNote({
       id: currentNote._id,
       etitle: currentNote.title,
@@ -26,19 +48,38 @@ function Notes() {
     });
   };
 
+  // Delete note WHEN button triggered by each delete icon
+  const delNote = async (id) => {
+    delref.current.click();
+    const json = await deleteNote(id);
+    const status = json.success ? "success" : "Error";
+    showAlert(json.message, status);
+  };
+
+  // Update each field value whenever user types a new char in field
   const updateValue = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
-
-  const handleClick = (e) => {
+  // Handle click to edit note by fetching the details from server
+  const handleClick = async (e) => {
     e.preventDefault();
-    editNote(note.id, note.etitle, note.edescription, note.etag);
+    const json = await editNote(
+      note.id,
+      note.etitle,
+      note.edescription,
+      note.etag
+    );
     setShowModal(false);
+    const status = json.success ? "success" : "Error";
+    showAlert(json.message, status);
   };
 
+  // Load the user note after login
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      getNotes();
+      (async () => {
+        await getNotes();
+      })();
     } else {
       navigate("/login");
     }
@@ -47,7 +88,11 @@ function Notes() {
 
   return (
     <>
-      <h1 className=" flex flex-wrap font-Montserrat justify-center mt-10 my-5 text-xl  tracking-tight leading-none text-[#393E46] md:text-4xl lg:text-4xl">
+      {alert && <Alert alert={alert} />}
+      <button className="hidden" ref={delref} type="button" onClick={delNote}>
+        Button to trigger deleteNote function
+      </button>
+      <h1 className=" flex flex-wrap font-Montserrat justify-center mt-16 my-5 text-xl  tracking-tight leading-none text-[#393E46] md:text-4xl lg:text-4xl">
         Your{" "}
         <mark className="mx-4 px-2 text-white bg-[#FFC23C] rounded">Notes</mark>
       </h1>
@@ -59,8 +104,9 @@ function Notes() {
           type="button"
           onClick={() => setShowModal(true)}
         >
-          Fill Details
+          Button to show Edit Modal
         </button>
+
         {showModal ? (
           <>
             <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -101,7 +147,6 @@ function Notes() {
                           type="text"
                           value={note.etitle}
                           onChange={updateValue}
-                          // placeholder="title"
                           name="etitle"
                           autoComplete="off"
                         />
@@ -121,7 +166,6 @@ function Notes() {
                           onChange={updateValue}
                           autoComplete="off"
                           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
-                          // placeholder="Write your thoughts here..."
                         ></textarea>
                       </div>
                       <div className="w-full  px-3 mb-6 md:mb-0">
@@ -138,14 +182,13 @@ function Notes() {
                             name="etag"
                             onChange={updateValue}
                           >
-                            <option>Select...</option>
+                            <option>Do not Change</option>
                             <option>General</option>
                             <option>Personal</option>
                             <option>Work</option>
                             <option>Relax</option>
                             <option>Task</option>
                             <option>List</option>
-                            <option>None</option>
                           </select>
                           <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
                             <i className="fa-solid fa-caret-down"></i>
@@ -155,13 +198,6 @@ function Notes() {
                     </form>
                   </div>
                   <div className="flex items-center justify-end p-6 ">
-                    {/* <button
-                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                      onClick={() => setShowModal(false)}
-                    >
-                      Close
-                    </button> */}
                     <button
                       className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                       type="button"
@@ -180,7 +216,7 @@ function Notes() {
         {notes.map((note, i) => {
           return (
             <div className="flex" key={i}>
-              <Noteitem note={note} updateNote={updateNote} />
+              <Noteitem note={note} updateNote={updateNote} delNote={delNote} />
             </div>
           );
         })}
