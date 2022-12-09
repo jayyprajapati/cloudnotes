@@ -212,7 +212,7 @@ function Notes() {
           </>
         ) : null}
       </div>
-      <div className=" grid lg:grid-cols-3 content-evenly grid-cols-1 grid-flow-row my-8">
+      <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row my-8">
         {notes.map((note, i) => {
           return (
             <div className="flex" key={i}>
