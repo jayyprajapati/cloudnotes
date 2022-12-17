@@ -99,7 +99,10 @@ function Notes() {
       <hr className="my-2 mx-auto w-48 h-1 bg-[#515150] rounded border-0"></hr>
       <div className="">
         <button
-          className="hidden"
+          className="hidden transition
+          delay-1500
+          duration-150
+          ease-in-out"
           ref={ref}
           type="button"
           onClick={() => setShowModal(true)}
@@ -109,8 +112,8 @@ function Notes() {
 
         {showModal ? (
           <>
-            <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative  my-2 mx-auto">
+            <div className="bg-black bg-opacity-50 absolute z-50 justify-center items-center inset-0">
+              <div className="absolute flex justify-center items-center inset-0  my-2 mx-auto">
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-[450px] bg-white outline-none focus:outline-none">
                   <div className="flex items-start justify-between p-5 rounded-t ">
                     <h3 className="text-xl font-Montserrat">

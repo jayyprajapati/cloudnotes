@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import "./About.css";
 function About() {
   const navigate = useNavigate();
 
@@ -17,7 +18,11 @@ function About() {
   return (
     <>
       <Navbar />
-      <h1>This is About</h1>
+      <div className="flex justify-center items-center align-middle">
+        <div className="card ">
+          <h2>CARD</h2>
+        </div>
+      </div>
     </>
   );
 }

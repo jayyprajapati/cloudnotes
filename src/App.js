@@ -7,6 +7,7 @@ import NoteState from "./components/context/notes/NoteState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import CredState from "./components/context/credentials/CredState";
+import DesiredModal from "./components/Playground/DesiredModal";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Router>
             <Routes>
               <Route exact path="/" element={<Home />} />
+              <Route exact path="/myModal" element={<DesiredModal />} />
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/about" element={<About />} />
               <Route exact path="/addnote" element={<Addnote />} />
@@ -31,12 +33,12 @@ function App() {
 
 export default App;
 
-// Search bar
+// Search bar Functionality
 // Profile Card
 // About page
 // Google, Github, LinkedIn Authentication
-// Mobile Responsive
+// Mobile Responsive -> Done
 // Change Modal
-// Alerts
+// Alerts -> Done
 // Alert Modal before Delete
 // Sessions and Cookies
