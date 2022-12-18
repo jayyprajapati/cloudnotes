@@ -113,6 +113,7 @@ function Signup() {
                     type="submit"
                     disabled={cred.password !== cred.cpassword}
                     className="inline-block px-7 py-3 bg-[#22A39F] text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#6ECCAF] hover:shadow-lg focus:bg-[#22A39F] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#22A39F] active:shadow-lg transition duration-150 ease-in-out"
+                    aria-label="Register Button"
                   >
                     <i className="fa-solid fa-user-plus"></i>&nbsp; Register
                   </button>
@@ -121,6 +122,7 @@ function Signup() {
                     <Link
                       to="/login"
                       className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                      aria-label="SignIn link"
                     >
                       Sign In
                     </Link>

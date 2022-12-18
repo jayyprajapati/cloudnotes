@@ -2,11 +2,14 @@ import React, { useContext, useState } from "react";
 import logo from "../logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import credContext from "./context/credentials/credContext";
+import noteContext from "./context/notes/noteContext";
 
 function Navbar() {
   const navigate = useNavigate();
   const context = useContext(credContext);
   const { showAlert } = context;
+  const notecontext = useContext(noteContext);
+  const { searchResults, query } = notecontext;
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => {
     setMenu(!menu);
@@ -16,6 +19,11 @@ function Navbar() {
     localStorage.removeItem("token");
     navigate("/login");
     showAlert("Logged out successfully", "success");
+  };
+
+  const searchQuery = (e) => {
+    const current = e.target.value;
+    searchResults(current.toLowerCase());
   };
   return (
     <>
@@ -30,6 +38,7 @@ function Navbar() {
                   aria-controls="mobile-menu"
                   aria-expanded="false"
                   onClick={toggleMenu}
+                  aria-label="Menu Bars"
                 >
                   <span className="sr-only">Open main menu</span>
 
@@ -43,6 +52,7 @@ function Navbar() {
                       className=" h-[44px] md:w-full hover:scale-110"
                       src={logo}
                       alt="Your Company"
+                      aria-label="home through logo link"
                     />
                   </Link>
                 </div>
@@ -57,6 +67,8 @@ function Navbar() {
                     id="search"
                     placeholder="Search"
                     autoComplete="off"
+                    value={query}
+                    onChange={searchQuery}
                   />
                 </div>
 
@@ -64,27 +76,32 @@ function Navbar() {
                 <div className="hidden w-full md:block">
                   <div className="flex justify-between">
                     {/* Add New note Link */}
-                    <Link to="/addnote">
+                    <Link to="/addnote" aria-label="addNote big screen link">
                       <span data-tooltip="New Note" data-flow="bottom">
                         <i className="fa-solid fa-plus hover:text-[27px] fa-xl"></i>
                       </span>
                     </Link>
 
                     {/* Profile Link */}
-                    <Link to="/home">
+                    <Link to="/home" aria-label="profile big screen link">
                       <span data-tooltip="Profile" data-flow="bottom">
                         <i className="fa-solid fa-user hover:text-[27px] fa-xl"></i>
                       </span>
                     </Link>
 
                     {/* About Link */}
-                    <Link to="/about">
+                    <Link to="/about" aria-label="about big screen link">
                       <span data-tooltip="About Us" data-flow="bottom">
                         <i className="fa-solid fa-circle-info  hover:text-[27px] fa-xl"></i>
                       </span>
                     </Link>
                     {/* Logout Link */}
-                    <button onClick={logout} to="/">
+                    <button
+                      onClick={logout}
+                      type="button"
+                      aria-label="Logout Button"
+                      to="/"
+                    >
                       <span data-tooltip="Logout" data-flow="bottom">
                         <i className="fa-solid hover:text-[27px] fa-right-from-bracket fa-xl"></i>
                       </span>
@@ -101,25 +118,30 @@ function Navbar() {
             id="mobile-menu"
           >
             <div className="px-4 mx-4 pt-8 flex justify-between">
-              <Link to="/addnote">
+              <Link to="/addnote" aria-label="addNote mobile screen link">
                 <span data-tooltip="New Note" data-flow="bottom">
                   <i className="fa-solid fa-plus hover:text-[27px] fa-xl"></i>
                 </span>
               </Link>
 
-              <Link to="/home">
+              <Link to="/home" aria-label="profile mobile screen link">
                 <span data-tooltip="Profile" data-flow="bottom">
                   <i className="fa-solid fa-user hover:text-[27px] fa-xl"></i>
                 </span>
               </Link>
 
-              <Link to="/about">
+              <Link to="/about" aria-label="about mobile screen link">
                 <span data-tooltip="About Us" data-flow="bottom">
                   <i className="fa-solid fa-circle-info  hover:text-[27px] fa-xl"></i>
                 </span>
               </Link>
 
-              <button onClick={logout} to="/">
+              <button
+                onClick={logout}
+                type="button"
+                aria-label="Logout Button Mobile"
+                to="/"
+              >
                 <span data-tooltip="Logout" data-flow="bottom">
                   <i className="fa-solid hover:text-[27px] fa-right-from-bracket fa-xl"></i>
                 </span>
@@ -130,9 +152,11 @@ function Navbar() {
                 className="outline-none items-center border-b-2 border-gray-500 bg-transparent  font-Montserrat"
                 type="text"
                 name="search"
-                id="search"
+                id="search-mobile"
                 placeholder="Search Here..."
                 autoComplete="off"
+                value={query}
+                onChange={searchQuery}
               />
             </div>
           </div>

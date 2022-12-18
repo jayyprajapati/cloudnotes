@@ -8,7 +8,7 @@ import Alert from "./Alert";
 function Notes() {
   // Access note context and note states
   const context = useContext(noteContext);
-  const { notes, getNotes, editNote, deleteNote } = context;
+  const { notes, getNotes, editNote, deleteNote, query, setQuery } = context;
 
   // Access credentials context and credentials states
   const credcontext = useContext(credContext);
@@ -28,6 +28,12 @@ function Notes() {
     etag: "General",
   });
 
+  const getFilteredNotes = (query, notes) => {
+    if (!query) return notes;
+    return notes.filter((note) => note.title?.toLowerCase().includes(query));
+  };
+
+  const filteredNotes = getFilteredNotes(query, notes);
   // Ref for edit button
   const ref = useRef(null);
 
@@ -79,6 +85,7 @@ function Notes() {
     if (localStorage.getItem("token")) {
       (async () => {
         await getNotes();
+        setQuery("");
       })();
     } else {
       navigate("/login");
@@ -89,15 +96,24 @@ function Notes() {
   return (
     <>
       {alert && <Alert alert={alert} />}
-      <button className="hidden" ref={delref} type="button" onClick={delNote}>
+      <button
+        aria-label="Trigger Delete Button"
+        className="hidden"
+        ref={delref}
+        type="button"
+        onClick={delNote}
+      >
         Button to trigger deleteNote function
       </button>
-      <h1 className=" flex flex-wrap font-Montserrat justify-center mt-16 my-5 text-xl  tracking-tight leading-none text-[#393E46] md:text-4xl lg:text-4xl">
+      <h1 className=" flex flex-wrap font-Montserrat justify-center mt-16 my-5 text-4xl  tracking-tight leading-none text-[#393E46]">
         Your{" "}
         <mark className="mx-4 px-2 text-white bg-[#FFC23C] rounded">Notes</mark>
       </h1>
       <hr className="my-2 mx-auto w-48 h-1 bg-[#515150] rounded border-0"></hr>
+
+      {/* Modal */}
       <div className="">
+        {/* Modal Button */}
         <button
           className="hidden transition
           delay-1500
@@ -106,10 +122,12 @@ function Notes() {
           ref={ref}
           type="button"
           onClick={() => setShowModal(true)}
+          aria-label="Trigger Edit Modal Button"
         >
           Button to show Edit Modal
         </button>
 
+        {/* Modal Content */}
         {showModal ? (
           <>
             <div className="bg-black bg-opacity-50 absolute z-50 justify-center items-center inset-0">
@@ -123,6 +141,8 @@ function Notes() {
                     <button
                       className="bg-transparent border-0 text-black float-right"
                       onClick={() => setShowModal(false)}
+                      aria-label="Close Button"
+                      type="button"
                     >
                       <span className=" opacity-7 block">
                         <i className="fa-solid fa-xmark fa-xl"></i>
@@ -205,6 +225,7 @@ function Notes() {
                       className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                       type="button"
                       onClick={handleClick}
+                      aria-label="Submit Button"
                     >
                       <i className="fa-solid fa-check fa-2xl"></i>
                     </button>
@@ -215,8 +236,9 @@ function Notes() {
           </>
         ) : null}
       </div>
+
       <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row my-8">
-        {notes.map((note, i) => {
+        {filteredNotes.map((note, i) => {
           return (
             <div className="flex" key={i}>
               <Noteitem note={note} updateNote={updateNote} delNote={delNote} />

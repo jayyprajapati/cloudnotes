@@ -92,6 +92,7 @@ function Login() {
                   <button
                     type="submit"
                     className="inline-block px-7 py-3 bg-[#22A39F] text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#6ECCAF] hover:shadow-lg focus:bg-[#22A39F] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#22A39F] active:shadow-lg transition duration-150 ease-in-out"
+                    aria-label="Login Button"
                   >
                     Login &nbsp;<i className="fa-solid fa-right-to-bracket"></i>
                   </button>
@@ -101,6 +102,7 @@ function Login() {
                       to="/signup"
                       href="/"
                       className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                      aria-label="SignUp link"
                     >
                       Register
                     </Link>
@@ -117,6 +119,7 @@ function Login() {
                     data-mdb-ripple="true"
                     data-mdb-ripple-color="light"
                     className="inline-block p-3 bg-black text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-gray-700 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mx-1"
+                    aria-label="Github Button"
                   >
                     {/* <!-- Github --> */}
                     <i className="fa-brands fa-github fa-xl"></i>
@@ -127,6 +130,7 @@ function Login() {
                     data-mdb-ripple="true"
                     data-mdb-ripple-color="light"
                     className="inline-block p-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1"
+                    aria-label="LinkedIn Button"
                   >
                     {/* <!-- LinkedIn --> */}
                     <i className="fa-brands fa-linkedin fa-xl"></i>
@@ -136,8 +140,9 @@ function Login() {
                     data-mdb-ripple="true"
                     data-mdb-ripple-color="light"
                     className="inline-block p-3 bg-white  font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-white active:shadow-lg transition duration-150 ease-in-out mx-1"
+                    aria-label="google Button"
                   >
-                    {/* <!-- LinkedIn --> */}
+                    {/* <!-- Google --> */}
                     <i className="fa-brands fa-google fa-lg text-black"></i>
                   </button>
                 </div>

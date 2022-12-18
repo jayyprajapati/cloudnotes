@@ -11,7 +11,7 @@ function Addnote() {
   const { showAlert } = credcontext;
 
   const context = useContext(noteContext);
-  const { addNote } = context;
+  const { addNote, setQuery } = context;
   const [isLogged, setIsLogged] = useState(false);
   const [note, setNote] = useState({
     title: "",
@@ -22,11 +22,12 @@ function Addnote() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsLogged(true);
+      setQuery("");
     } else {
       setIsLogged(false);
       navigate("/login");
     }
-  }, [isLogged, navigate]);
+  }, [isLogged, navigate, setQuery]);
 
   const addNewNote = async (e) => {
     e.preventDefault();
@@ -128,7 +129,7 @@ function Addnote() {
               </div>
             </div>
             <div className="flex items-center justify-end align-middle mx-auto mt-6">
-              <button type="submit">
+              <button aria-label="Submit new Note" type="submit">
                 <span data-tooltip="Send" data-flow="bottom">
                   <i className="fa-regular hover:scale-x-110 fa-paper-plane fa-2xl text-[#495057]"></i>
                 </span>

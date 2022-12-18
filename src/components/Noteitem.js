@@ -71,12 +71,20 @@ function Noteitem(props) {
             {note.tag}
           </span>
           <div className=" justify-between text-[#495057]  space-x-8">
-            <button onClick={() => delNote(note._id)}>
+            <button
+              aria-label="Delete Button"
+              type="button"
+              onClick={() => delNote(note._id)}
+            >
               <span data-tooltip="Delete" data-flow="top">
                 <i className="fa-regular fa-trash-can hover:text-[23px] fa-lg"></i>
               </span>
             </button>
-            <button onClick={() => updateNote(note)}>
+            <button
+              aria-label="Edit Button"
+              type="button"
+              onClick={() => updateNote(note)}
+            >
               {/* onClick={updateNote(note)} */}
               <span data-tooltip="Edit" data-flow="top">
                 <i className="fa-solid fa-pencil hover:text-[23px] fa-lg"></i>

@@ -33,12 +33,12 @@ function App() {
 
 export default App;
 
-// Search bar Functionality
+// Search bar Functionality -> Done
 // Profile Card
 // About page
 // Google, Github, LinkedIn Authentication
 // Mobile Responsive -> Done
-// Change Modal
 // Alerts -> Done
-// Alert Modal before Delete
 // Sessions and Cookies
+// Change Modal
+// Alert Modal before Delete
