@@ -130,7 +130,7 @@ function Notes() {
         {/* Modal Content */}
         {showModal ? (
           <>
-            <div className="bg-black bg-opacity-50 absolute z-50 justify-center items-center inset-0">
+            <div className="bg-black bg-opacity-50 fixed z-50 justify-center items-center left-1/2 ml-[-50%] inset-0">
               <div className="absolute flex justify-center items-center inset-0  my-2 mx-auto">
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-[450px] bg-white outline-none focus:outline-none">
                   <div className="flex items-start justify-between p-5 rounded-t ">
