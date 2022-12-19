@@ -29,9 +29,18 @@ function Addnote() {
     }
   }, [isLogged, navigate, setQuery]);
 
+  function titleCase(str) {
+    str = str.toLowerCase().split(" ");
+    for (var i = 0; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
+    return str.join(" ");
+  }
+
   const addNewNote = async (e) => {
     e.preventDefault();
-    const json = await addNote(note.title, note.description, note.tag);
+    const newTitle = titleCase(note.title);
+    const json = await addNote(newTitle, note.description, note.tag);
     navigate("/home");
     const status = json.success ? "success" : "Error";
     showAlert(json.message, status);

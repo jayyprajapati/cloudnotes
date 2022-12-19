@@ -74,7 +74,7 @@ function Noteitem(props) {
             <button
               aria-label="Delete Button"
               type="button"
-              onClick={() => delNote(note._id)}
+              onClick={() => delNote(note._id, note.title)}
             >
               <span data-tooltip="Delete" data-flow="top">
                 <i className="fa-regular fa-trash-can hover:text-[23px] fa-lg"></i>

@@ -34,13 +34,3 @@ function App() {
 }
 
 export default App;
-
-// Search bar Functionality -> Done
-// Profile Card
-// About page
-// Google, Github, LinkedIn Authentication
-// Mobile Responsive -> Done
-// Alerts -> Done
-// Sessions and Cookies
-// Change Modal
-// Alert Modal before Delete

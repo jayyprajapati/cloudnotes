@@ -20,6 +20,7 @@ function Notes() {
 
   // edit modal states
   const [showModal, setShowModal] = useState(false);
+  const [showDelModal, setShowDelModal] = useState(false);
 
   // note states
   const [note, setNote] = useState({
@@ -29,6 +30,7 @@ function Notes() {
     etag: "General",
   });
 
+  const [delNoteDetails, setDelNoteDetails] = useState({ id: "", title: "" });
   const getFilteredNotes = (query, notes) => {
     if (!query) return notes;
     return notes.filter((note) => note.title?.toLowerCase().includes(query));
@@ -39,7 +41,15 @@ function Notes() {
   const ref = useRef(null);
 
   // Ref for delete button
-  const delref = useRef(null);
+  // const delref = useRef(null);
+
+  //
+  const deleteModalRef = useRef(null);
+
+  const deleteModal = (id, title) => {
+    deleteModalRef.current.click();
+    setDelNoteDetails({ id, title });
+  };
 
   // Open edit modal WHEN button triggered by each edit icon
   const updateNote = (currentNote) => {
@@ -56,9 +66,10 @@ function Notes() {
   };
 
   // Delete note WHEN button triggered by each delete icon
-  const delNote = async (id) => {
-    delref.current.click();
-    const json = await deleteNote(id);
+  const deleteNoteOnServer = async () => {
+    // delref.current.click();
+    const json = await deleteNote(delNoteDetails.id);
+    setShowDelModal(false);
     const status = json.success ? "success" : "Error";
     showAlert(json.message, status);
   };
@@ -67,8 +78,8 @@ function Notes() {
   const updateValue = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
-  // Handle click to edit note by fetching the details from server
-  const handleClick = async (e) => {
+  // Handle click to edit note by sending new details to server
+  const editNoteOnServer = async (e) => {
     e.preventDefault();
     const json = await editNote(
       note.id,
@@ -98,22 +109,22 @@ function Notes() {
   return (
     <>
       {alert && <Alert alert={alert} />}
-      <button
+      {/* <button
         aria-label="Trigger Delete Button"
         className="hidden"
         ref={delref}
         type="button"
-        onClick={delNote}
+        onClick={deleteModal}
       >
         Button to trigger deleteNote function
-      </button>
+      </button> */}
       <h1 className=" flex flex-wrap font-Montserrat justify-center mt-16 my-5 text-4xl  tracking-tight leading-none text-[#393E46]">
         Your{" "}
         <mark className="mx-4 px-2 text-white bg-[#FFC23C] rounded">Notes</mark>
       </h1>
       <hr className="my-2 mx-auto w-48 h-1 bg-[#515150] rounded border-0"></hr>
 
-      {/* Modal */}
+      {/* Edit Modal */}
       <div className="">
         {/* Modal Button */}
         <button
@@ -224,12 +235,11 @@ function Notes() {
                   </div>
                   <div className="flex items-center justify-end p-6 ">
                     <button
-                      className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                      onClick={handleClick}
-                      aria-label="Submit Button"
+                      className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                      onClick={editNoteOnServer}
                     >
-                      <i className="fa-solid fa-check fa-2xl"></i>
+                      <i className="fa-regular fa-circle-check"></i>&nbsp;
+                      Update
                     </button>
                   </div>
                 </div>
@@ -239,12 +249,81 @@ function Notes() {
         ) : null}
       </div>
 
+      {/* Delete Modal */}
+      <div className="">
+        {/* Modal Button */}
+        <button
+          className="hidden transition
+          delay-1500
+          duration-150
+          ease-in-out"
+          ref={deleteModalRef}
+          type="button"
+          onClick={() => setShowDelModal(true)}
+          aria-label="Trigger Delete Modal Button"
+        >
+          Button to show Delete Modal
+        </button>
+
+        {/* Modal Content */}
+        {showDelModal ? (
+          <>
+            <div className="bg-black bg-opacity-50 fixed z-50 justify-center items-center left-1/2 ml-[-50%] inset-0">
+              <div className="absolute flex justify-center items-center inset-0  my-2 mx-auto">
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-5/6 md:w-1/2 bg-white outline-none focus:outline-none">
+                  <div className="flex items-start justify-between gap-6 p-5 rounded-t ">
+                    <h3 className="text-xl font-Montserrat">
+                      Are you sure you want to{" "}
+                      <span className="text-red-600">Delete</span> this note?
+                    </h3>
+                    <button
+                      className="bg-transparent border-0 text-black float-right"
+                      onClick={() => setShowDelModal(false)}
+                      aria-label="Close Button"
+                      type="button"
+                    >
+                      <span className=" opacity-7 block">
+                        <i className="fa-solid fa-xmark fa-xl"></i>
+                      </span>
+                    </button>
+                  </div>
+
+                  <hr className="  w-full h-1 bg-[#fcd581] rounded border-0"></hr>
+                  <div className="flex justify-center">
+                    <h2 className="m-5 font-bold text-gray-500 font-Montserrat">
+                      {delNoteDetails.title}
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-center gap-5 p-6 ">
+                    <button
+                      className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                      onClick={() => setShowDelModal(false)}
+                    >
+                      <i className="fa-solid fa-xmark"></i>&nbsp; Cancel
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
+                      onClick={deleteNoteOnServer}
+                    >
+                      <i className="fa-regular fa-trash-can"></i>&nbsp; Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : null}
+      </div>
       {notes.length === 0 && <EmptyNotes />}
       <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row my-8">
         {filteredNotes.map((note, i) => {
           return (
             <div className="flex" key={i}>
-              <Noteitem note={note} updateNote={updateNote} delNote={delNote} />
+              <Noteitem
+                note={note}
+                updateNote={updateNote}
+                delNote={deleteModal}
+              />
             </div>
           );
         })}

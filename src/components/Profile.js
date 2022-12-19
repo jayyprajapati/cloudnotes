@@ -31,19 +31,17 @@ function About() {
     <>
       <Navbar />
       <div className="flex justify-center align-middle mt-20">
-        <div className="w-full p-8 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full p-8 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
           <div className="flex flex-col items-center pb-10">
             <img
               className="w-24 h-24 mb-3 rounded-full shadow-lg"
               src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"
               alt="Bonnie"
             />
-            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+            <h5 className="mb-1 text-xl font-medium text-gray-900">
               Hello {user?.user?.name}
             </h5>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {user?.user?.email}
-            </span>
+            <span className="text-sm text-gray-500 ">{user?.user?.email}</span>
           </div>
         </div>
       </div>
