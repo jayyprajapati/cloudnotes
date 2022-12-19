@@ -5,6 +5,7 @@ const CredState = (props) => {
   const host = "http://localhost:8000";
 
   const [alert, setAlert] = useState(null);
+  const [user, setUser] = useState([]);
 
   // –––––––––––––––––––––––––– User Login ––––––––––––––––––––––––––
 
@@ -57,8 +58,30 @@ const CredState = (props) => {
     }, 1500);
   };
 
+  // –––––––––––––––––––––––––– Get user Details ––––––––––––––––––––––––––
+
+  const userDetails = async () => {
+    const url = `${host}/api/auth/getuser`;
+    // send request to server
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    // wait for response
+    const json = await response.json();
+    // console.log(json);
+    setUser(json);
+    // console.log(user);
+  };
+
   return (
-    <credContext.Provider value={{ userLogin, userSignup, showAlert, alert }}>
+    <credContext.Provider
+      value={{ userLogin, userSignup, showAlert, alert, userDetails, user }}
+    >
       {props.children}
     </credContext.Provider>
   );

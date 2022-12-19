@@ -4,6 +4,7 @@ import noteContext from "./context/notes/noteContext";
 import credContext from "./context/credentials/credContext";
 import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
+import EmptyNotes from "./EmptyNotes";
 
 function Notes() {
   // Access note context and note states
@@ -85,6 +86,7 @@ function Notes() {
     if (localStorage.getItem("token")) {
       (async () => {
         await getNotes();
+        // await userDetails();
         setQuery("");
       })();
     } else {
@@ -237,6 +239,7 @@ function Notes() {
         ) : null}
       </div>
 
+      {notes.length === 0 && <EmptyNotes />}
       <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row my-8">
         {filteredNotes.map((note, i) => {
           return (

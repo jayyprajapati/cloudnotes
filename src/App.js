@@ -6,6 +6,7 @@ import Addnote from "./components/CRUD/Addnote";
 import NoteState from "./components/context/notes/NoteState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Profile from "./components/Profile";
 import CredState from "./components/context/credentials/CredState";
 import DesiredModal from "./components/Playground/DesiredModal";
 
@@ -23,6 +24,7 @@ function App() {
               <Route exact path="/addnote" element={<Addnote />} />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/signup" element={<Signup />} />
+              <Route exact path="/profile" element={<Profile />} />
             </Routes>
           </Router>
         </CredState>

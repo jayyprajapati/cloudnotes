@@ -7,12 +7,17 @@ import noteContext from "./context/notes/noteContext";
 function Navbar() {
   const navigate = useNavigate();
   const context = useContext(credContext);
-  const { showAlert } = context;
+  const { showAlert, userDetails } = context;
   const notecontext = useContext(noteContext);
   const { searchResults, query } = notecontext;
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => {
     setMenu(!menu);
+  };
+
+  const getDetails = async () => {
+    await userDetails();
+    // console.log(user);
   };
 
   const logout = () => {
@@ -83,8 +88,12 @@ function Navbar() {
                     </Link>
 
                     {/* Profile Link */}
-                    <Link to="/home" aria-label="profile big screen link">
-                      <span data-tooltip="Profile" data-flow="bottom">
+                    <Link to="/profile" aria-label="profile big screen link">
+                      <span
+                        data-tooltip="Profile"
+                        data-flow="bottom"
+                        onClick={getDetails}
+                      >
                         <i className="fa-solid fa-user hover:text-[27px] fa-xl"></i>
                       </span>
                     </Link>
@@ -124,7 +133,7 @@ function Navbar() {
                 </span>
               </Link>
 
-              <Link to="/home" aria-label="profile mobile screen link">
+              <Link to="/profile" aria-label="profile mobile screen link">
                 <span data-tooltip="Profile" data-flow="bottom">
                   <i className="fa-solid fa-user hover:text-[27px] fa-xl"></i>
                 </span>
