@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import Addnote from "./components/Addnote";
@@ -16,7 +21,17 @@ function App() {
         <CredState>
           <Router>
             <Routes>
-              <Route exact path="/" element={<Home />} />
+              <Route
+                exact
+                path="/"
+                element={
+                  localStorage.getItem("token") ? (
+                    <Home />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/about" element={<About />} />
               <Route exact path="/addnote" element={<Addnote />} />
