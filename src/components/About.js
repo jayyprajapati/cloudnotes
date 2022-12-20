@@ -35,7 +35,7 @@ function About() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <i className="fa-brands fa-instagram text-gray-500"></i>
+                <i className="fa-brands fa-instagram text-gray-500 hover:scale-110"></i>
               </a>
             </li>
             <li className="card-social__item">
@@ -44,7 +44,7 @@ function About() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <i className="fa-brands fa-github text-gray-500"></i>
+                <i className="fa-brands fa-github text-gray-500 hover:scale-110"></i>
               </a>
             </li>
             <li className="card-social__item">
@@ -53,7 +53,7 @@ function About() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <i className="fa-brands fa-linkedin text-gray-500"></i>
+                <i className="fa-brands fa-linkedin text-gray-500 hover:scale-110"></i>
               </a>
             </li>
           </ul>
