@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import credContext from "./credContext.js";
 
 const CredState = (props) => {
-  const host = "http://localhost:8000";
+  const host = "https://cloudnotes-api-8ay5.onrender.com";
 
   const [user, setUser] = useState([]);
 
