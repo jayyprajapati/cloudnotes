@@ -14,8 +14,8 @@ function App() {
   return (
     <>
       <NoteState>
-        <CredState>
-          <Router>
+        <Router>
+          <CredState>
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/myModal" element={<DesiredModal />} />
@@ -26,8 +26,8 @@ function App() {
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/profile" element={<Profile />} />
             </Routes>
-          </Router>
-        </CredState>
+          </CredState>
+        </Router>
       </NoteState>
     </>
   );

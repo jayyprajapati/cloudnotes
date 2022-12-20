@@ -27,7 +27,10 @@ function About() {
               <img src={img} className="rounded-full" alt="" />
             </div>
             <div className="card-title">Jay Prajapati</div>
-            <div className="card-subtitle p-2">jay.prajapati5717@gmail.com</div>
+            <div className="card-subtitle p-2 flex items-center">
+              <i className="fa-regular fa-envelope"></i> &nbsp;
+              jay.prajapati5717@gmail.com
+            </div>
             {/* <div className="card-subtitle">Build using &amp; React</div> */}
           </div>
           <ul className="card-social">

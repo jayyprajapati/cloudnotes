@@ -12,7 +12,7 @@ function Addnote() {
 
   const context = useContext(noteContext);
   const { addNote, setQuery } = context;
-  const [isLogged, setIsLogged] = useState(false);
+
   const [note, setNote] = useState({
     title: "",
     description: "",
@@ -21,13 +21,12 @@ function Addnote() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setIsLogged(true);
       setQuery("");
     } else {
-      setIsLogged(false);
       navigate("/login");
     }
-  }, [isLogged, navigate, setQuery]);
+    // eslint-disable-next-line
+  }, []);
 
   // function titleCase(str) {
   //   str = str.toLowerCase().split(" ");

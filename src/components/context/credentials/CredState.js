@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import credContext from "./credContext.js";
+// import { useNavigate } from "react-router-dom";
 
 const CredState = (props) => {
   const host = "http://localhost:8000";
 
+  // const navigate = useNavigate();
   const [alert, setAlert] = useState(null);
   const [user, setUser] = useState([]);
-
+  const [isLogged, setIsLogged] = useState(false);
   // –––––––––––––––––––––––––– User Login ––––––––––––––––––––––––––
 
   const userLogin = async (email, password) => {
@@ -78,9 +80,28 @@ const CredState = (props) => {
     // console.log(user);
   };
 
+  const checkLoginStatus = () => {
+    if (localStorage.getItem("token")) {
+      setIsLogged(true);
+    } else {
+      setIsLogged(false);
+      // navigate("/login");
+    }
+  };
+
   return (
     <credContext.Provider
-      value={{ userLogin, userSignup, showAlert, alert, userDetails, user }}
+      value={{
+        userLogin,
+        userSignup,
+        showAlert,
+        alert,
+        userDetails,
+        user,
+        setIsLogged,
+        isLogged,
+        checkLoginStatus,
+      }}
     >
       {props.children}
     </credContext.Provider>

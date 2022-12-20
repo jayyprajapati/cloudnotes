@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import credContext from "./context/credentials/credContext";
@@ -6,17 +6,14 @@ import credContext from "./context/credentials/credContext";
 function About() {
   const navigate = useNavigate();
 
-  const [_, setIsLogged] = useState(false);
+  // const [_, setIsLogged] = useState(false);
   const context = useContext(credContext);
   const { user, userDetails } = context;
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setIsLogged(true);
       userDetails();
-      // console.log(user);
     } else {
-      setIsLogged(false);
       navigate("/login");
     }
     // eslint-disable-next-line
@@ -45,7 +42,8 @@ function About() {
               </span>
             </h5>
             <span className="text-sm flex text-gray-500 items-center align-middle">
-              <i class="fa-regular fa-envelope"></i> &nbsp;{user?.user?.email}
+              <i className="fa-regular fa-envelope"></i> &nbsp;
+              {user?.user?.email}
             </span>
           </div>
         </div>
