@@ -55,7 +55,7 @@ function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-between w-full">
                 <div className="flex w-full">
-                  <Link to="/">
+                  <Link to="/home">
                     <img
                       className=" h-[44px] md:w-full hover:scale-110"
                       src={logo}
