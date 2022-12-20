@@ -59,7 +59,7 @@ function Noteitem(props) {
             <i className="fa-regular fa-clock"></i>&nbsp; {finalTime}
           </span>
         </div>
-        <div className="my-10 break-all">
+        <div className="my-10 break-words">
           <span className="text-2xl font-bold font-Montserrat text-[#EE6F57]">
             {newTitle}
           </span>
