@@ -59,12 +59,13 @@ function Noteitem(props) {
             <i className="fa-regular fa-clock"></i>&nbsp; {finalTime}
           </span>
         </div>
-        <div className="my-10">
+        <div className="my-10 break-all">
           <span className="text-2xl font-bold font-Montserrat text-[#EE6F57]">
             {newTitle}
           </span>
-
-          <p className="mt-2 text-[#73777B]">{note.description}</p>
+          <div className="mt-2  text-[#73777B]">
+            <p>{note.description}</p>
+          </div>
         </div>
         <div className="flex items-center justify-between align-middle mx-auto mt-6">
           <span className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-[#439A97] rounded font-Montserrat">
