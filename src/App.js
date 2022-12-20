@@ -8,7 +8,6 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import CredState from "./components/context/credentials/CredState";
-import DesiredModal from "./components/Playground/DesiredModal";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
           <CredState>
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route exact path="/myModal" element={<DesiredModal />} />
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/about" element={<About />} />
               <Route exact path="/addnote" element={<Addnote />} />
