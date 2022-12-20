@@ -13,7 +13,21 @@ function Login() {
   // Credentials states
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
+  const [passToggle, setPassToggle] = useState(false);
+  const [passIcon, setPassIcon] = useState("fa-eye-slash");
+
   const navigate = useNavigate();
+
+  const passView = () => {
+    setPassToggle(!passToggle);
+    if (passToggle) {
+      document.getElementById("password").setAttribute("type", "password");
+      setPassIcon("fa-eye-slash");
+    } else {
+      document.getElementById("password").setAttribute("type", "text");
+      setPassIcon("fa-eye");
+    }
+  };
 
   // User login when click login button
   const login = async (e) => {
@@ -75,7 +89,7 @@ function Login() {
                 </div>
 
                 {/* <!-- Password input --> */}
-                <div className="mb-6">
+                <div className="mb-6 flex gap-3 items-center">
                   <input
                     type="password"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none"
@@ -86,6 +100,9 @@ function Login() {
                     minLength="6"
                     required
                   />
+                  <span className="cursor-pointer" onClick={passView}>
+                    <i className={`fa-solid ${passIcon} hover:scale-110`}></i>
+                  </span>
                 </div>
 
                 <div className="text-center flex justify-between lg:text-left">
@@ -156,3 +173,6 @@ function Login() {
 }
 
 export default Login;
+
+//  <i class="fa-solid fa-eye"></i>
+// <i class="fa-solid fa-eye-slash"></i>

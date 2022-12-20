@@ -33,6 +33,14 @@ function formatDate(date) {
   return [strDate, strTime];
 }
 
+function titleCase(str) {
+  str = str?.toLowerCase().split(" ");
+  for (var i = 0; i < str?.length; i++) {
+    str[i] = str[i]?.charAt(0).toUpperCase() + str[i]?.slice(1);
+  }
+  return str?.join(" ");
+}
+
 function Noteitem(props) {
   // const context = useContext(noteContext);
   // const { deleteNote } = context;
@@ -40,7 +48,7 @@ function Noteitem(props) {
 
   const strDate = new Date(note.date);
   const [finalDate, finalTime] = formatDate(strDate);
-
+  const newTitle = titleCase(note.title);
   // const deleteThisNote = () => {
   //   deleteNote(note._id);
   // };
@@ -61,7 +69,7 @@ function Noteitem(props) {
         </div>
         <div className="my-10">
           <span className="text-2xl font-bold font-Montserrat text-[#EE6F57]">
-            {note.title}
+            {newTitle}
           </span>
 
           <p className="mt-2 text-[#73777B]">{note.description}</p>

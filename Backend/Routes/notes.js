@@ -95,7 +95,7 @@ router.put(
       if (tag) {
         newNote.tag = tag;
       }
-
+      newNote.date = Date.now();
       // Search for the note using note id
       let note = await Notes.findById(req.params.id);
       // If note is not found using the note id
