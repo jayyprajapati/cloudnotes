@@ -1,7 +1,4 @@
 import React from "react";
-// import { Link } from "react-router-dom";
-// import noteContext from "./context/notes/noteContext";
-// import credContext from "./context/credentials/credContext";
 
 function formatDate(date) {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -42,16 +39,11 @@ function titleCase(str) {
 }
 
 function Noteitem(props) {
-  // const context = useContext(noteContext);
-  // const { deleteNote } = context;
   const { note, updateNote, delNote } = props;
 
   const strDate = new Date(note.date);
   const [finalDate, finalTime] = formatDate(strDate);
   const newTitle = titleCase(note.title);
-  // const deleteThisNote = () => {
-  //   deleteNote(note._id);
-  // };
 
   return (
     <>

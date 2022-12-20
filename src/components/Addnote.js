@@ -1,24 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import noteContext from "../context/notes/noteContext";
-import Navbar from "../Navbar";
-import credContext from "../context/credentials/credContext";
+import noteContext from "./context/notes/noteContext";
+import Navbar from "./Navbar";
+import credContext from "./context/credentials/credContext";
 
 function Addnote() {
-  const navigate = useNavigate();
-
-  const credcontext = useContext(credContext);
-  const { showAlert } = credcontext;
-
-  const context = useContext(noteContext);
-  const { addNote, setQuery } = context;
-
-  const [note, setNote] = useState({
-    title: "",
-    description: "",
-    tag: "General",
-  });
-
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setQuery("");
@@ -28,26 +14,42 @@ function Addnote() {
     // eslint-disable-next-line
   }, []);
 
-  // function titleCase(str) {
-  //   str = str.toLowerCase().split(" ");
-  //   for (var i = 0; i < str.length; i++) {
-  //     str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-  //   }
-  //   return str.join(" ");
-  // }
+  // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
+  const navigate = useNavigate();
+
+  // Access credentials context and credentials states
+  const credcontext = useContext(credContext);
+  const { showAlert } = credcontext;
+
+  // Access note context and note states
+  const context = useContext(noteContext);
+  const { addNote, setQuery } = context;
+
+  // –––––––––––––––––––––– Add new Note Functionality ––––––––––––––––––––––––
+
+  const [note, setNote] = useState({
+    title: "",
+    description: "",
+    tag: "General",
+  });
+
+  // Server side add note function called when user clicks on send/submit
   const addNewNote = async (e) => {
     e.preventDefault();
-    // const newTitle = titleCase(note.title);
     const json = await addNote(note.title, note.description, note.tag);
     navigate("/home");
     const status = json.success ? "success" : "Error";
     showAlert(json.message, status);
   };
 
+  // Update each field value whenever user types a new char in field
+
   const updateValue = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
+
+  // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
   return (
     <>

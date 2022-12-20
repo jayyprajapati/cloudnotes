@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import credContext from "./credContext.js";
-// import { useNavigate } from "react-router-dom";
 
 const CredState = (props) => {
   const host = "http://localhost:8000";
 
-  // const navigate = useNavigate();
-  const [alert, setAlert] = useState(null);
   const [user, setUser] = useState([]);
-  const [isLogged, setIsLogged] = useState(false);
+
   // –––––––––––––––––––––––––– User Login ––––––––––––––––––––––––––
 
   const userLogin = async (email, password) => {
@@ -49,6 +46,8 @@ const CredState = (props) => {
 
   // –––––––––––––––––––––––––– Show Alert ––––––––––––––––––––––––––
 
+  const [alert, setAlert] = useState(null);
+
   const showAlert = (message, type) => {
     // Set alert type and message and display it
     setAlert({
@@ -75,18 +74,7 @@ const CredState = (props) => {
     });
     // wait for response
     const json = await response.json();
-    // console.log(json);
     setUser(json);
-    // console.log(user);
-  };
-
-  const checkLoginStatus = () => {
-    if (localStorage.getItem("token")) {
-      setIsLogged(true);
-    } else {
-      setIsLogged(false);
-      // navigate("/login");
-    }
   };
 
   return (
@@ -98,9 +86,6 @@ const CredState = (props) => {
         alert,
         userDetails,
         user,
-        setIsLogged,
-        isLogged,
-        checkLoginStatus,
       }}
     >
       {props.children}

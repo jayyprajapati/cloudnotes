@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import "./About.css";
-import img from "./jay.jpeg";
+import img from "./imgs/jay.jpeg";
 function About() {
   const navigate = useNavigate();
 
-  const [isLogged, setIsLogged] = useState(false);
-
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLogged(true);
-    } else {
-      setIsLogged(false);
+    if (!localStorage.getItem("token")) {
       navigate("/login");
     }
-  }, [isLogged, navigate]);
+    // eslint-disable-next-line
+  }, []);
   return (
     <>
       <Navbar />
@@ -31,7 +27,6 @@ function About() {
               <i className="fa-regular fa-envelope"></i> &nbsp;
               jay.prajapati5717@gmail.com
             </div>
-            {/* <div className="card-subtitle">Build using &amp; React</div> */}
           </div>
           <ul className="card-social">
             <li className="card-social__item">

@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
-import Addnote from "./components/CRUD/Addnote";
+import Addnote from "./components/Addnote";
 import NoteState from "./components/context/notes/NoteState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";

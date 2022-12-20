@@ -1,23 +1,26 @@
 import React, { useContext, useState } from "react";
-import logo from "../logo.png";
+import logo from "./imgs/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import credContext from "./context/credentials/credContext";
 import noteContext from "./context/notes/noteContext";
 
 function Navbar() {
   const navigate = useNavigate();
+
   const context = useContext(credContext);
   const { showAlert, userDetails } = context;
+
   const notecontext = useContext(noteContext);
   const { searchResults, query } = notecontext;
+
   const [menu, setMenu] = useState(false);
+
   const toggleMenu = () => {
     setMenu(!menu);
   };
 
   const getDetails = async () => {
     await userDetails();
-    // console.log(user);
   };
 
   const logout = () => {

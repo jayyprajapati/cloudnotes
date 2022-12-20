@@ -1,10 +1,6 @@
 import React from "react";
 
 function Alert(props) {
-  // const bgcolor = props.alert.type === "success" ? "#C6EBC5" : "#EC7272";
-  // const txtcolor = props.alert.type === "success" ? "#3D8361" : "#C21010";
-  // const bdcolor = props.alert.type === "success" ? "#38E54D" : "#FF1E00";
-  // const cmncolor = props.alert.type === "success" ? "green" : "red";
   const svg = props.alert.type === "success" ? "check" : "exclamation";
 
   return (

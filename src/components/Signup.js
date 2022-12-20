@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import loginImg from "../Add notes-bro.png";
-import siteLogo from "../logo.png";
+import loginImg from "./imgs/Add notes-bro.png";
+import siteLogo from "./imgs/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import credContext from "./context/credentials/credContext";
 import Alert from "./Alert";
@@ -105,6 +105,7 @@ function Signup() {
                     placeholder="Confirm Password"
                     onChange={updateValue}
                     required
+                    autoComplete="off"
                   />
                 </div>
 

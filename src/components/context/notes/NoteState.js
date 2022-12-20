@@ -6,7 +6,6 @@ const NoteState = (props) => {
 
   const startingNotes = [];
   const [notes, setnotes] = useState(startingNotes);
-  const [query, setQuery] = useState("");
 
   // –––––––––––––––––––––––––– Get all notes of a user ––––––––––––––––––––––––––
 
@@ -106,9 +105,14 @@ const NoteState = (props) => {
     return json;
   };
 
+  // –––––––––––––––––––––––––– Search Note ––––––––––––––––––––––––––
+
+  const [query, setQuery] = useState("");
   const searchResults = (q) => {
     setQuery(q);
   };
+
+  // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
   return (
     <noteContext.Provider

@@ -6,7 +6,6 @@ import credContext from "./context/credentials/credContext";
 function About() {
   const navigate = useNavigate();
 
-  // const [_, setIsLogged] = useState(false);
   const context = useContext(credContext);
   const { user, userDetails } = context;
 
@@ -18,11 +17,6 @@ function About() {
     }
     // eslint-disable-next-line
   }, []);
-
-  // const getDetails = async () => {
-  //   await userDetails();
-  //   console.log(user);
-  // };
 
   return (
     <>

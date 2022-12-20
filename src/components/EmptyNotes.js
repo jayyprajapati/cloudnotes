@@ -1,5 +1,5 @@
 import React from "react";
-import addFirstNote from "../addFirstNote.gif";
+import addFirstNote from "./imgs/addFirstNote.gif";
 function EmptyNotes() {
   return (
     <>

@@ -7,6 +7,23 @@ import Alert from "./Alert";
 import EmptyNotes from "./EmptyNotes";
 
 function Notes() {
+  // Load the user note after login
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      (async () => {
+        await getNotes();
+        setQuery("");
+      })();
+    } else {
+      navigate("/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+  // navigate functionality to navigate from one endpoint to another
+  let navigate = useNavigate();
+
   // Access note context and note states
   const context = useContext(noteContext);
   const { notes, getNotes, editNote, deleteNote, query, setQuery } = context;
@@ -14,13 +31,6 @@ function Notes() {
   // Access credentials context and credentials states
   const credcontext = useContext(credContext);
   const { showAlert, alert } = credcontext;
-
-  // navigate functionality to navigate from one endpoint to another
-  let navigate = useNavigate();
-
-  // edit modal states
-  const [showModal, setShowModal] = useState(false);
-  const [showDelModal, setShowDelModal] = useState(false);
 
   // note states
   const [note, setNote] = useState({
@@ -30,32 +40,17 @@ function Notes() {
     etag: "General",
   });
 
-  const [delNoteDetails, setDelNoteDetails] = useState({ id: "", title: "" });
-  const getFilteredNotes = (query, notes) => {
-    if (!query) return notes;
-    return notes.filter((note) => note.title?.toLowerCase().includes(query));
-  };
-
-  const filteredNotes = getFilteredNotes(query, notes);
-  // Ref for edit button
+  // –––––––––––––––––––––– Edit Modal Functionality ––––––––––––––––––––––––
+  // Edit Modal Reference Button
   const ref = useRef(null);
 
-  // Ref for delete button
-  // const delref = useRef(null);
+  // Edit modal states
+  const [showModal, setShowModal] = useState(false);
 
-  //
-  const deleteModalRef = useRef(null);
-
-  const deleteModal = (id, title) => {
-    deleteModalRef.current.click();
-    setDelNoteDetails({ id, title });
-  };
-
-  // Open edit modal WHEN button triggered by each edit icon
+  // Function calls and displays Edit modal when Edit icon is clicked.
   const updateNote = (currentNote) => {
     // click edit button using ref and open edit modal
     ref.current.click();
-
     // set new note attribute values to note state
     setNote({
       id: currentNote._id,
@@ -65,20 +60,12 @@ function Notes() {
     });
   };
 
-  // Delete note WHEN button triggered by each delete icon
-  const deleteNoteOnServer = async () => {
-    // delref.current.click();
-    const json = await deleteNote(delNoteDetails.id);
-    setShowDelModal(false);
-    const status = json.success ? "success" : "Error";
-    showAlert(json.message, status);
-  };
-
   // Update each field value whenever user types a new char in field
   const updateValue = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
-  // Handle click to edit note by sending new details to server
+
+  // Edit function called on server side after user make changes and clicks update in modal.
   const editNoteOnServer = async (e) => {
     e.preventDefault();
     const json = await editNote(
@@ -92,32 +79,44 @@ function Notes() {
     showAlert(json.message, status);
   };
 
-  // Load the user note after login
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      (async () => {
-        await getNotes();
-        // await userDetails();
-        setQuery("");
-      })();
-    } else {
-      navigate("/login");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // –––––––––––––––––––––– Delete Modal Functionality ––––––––––––––––––––––––
+
+  // Delete Modal reference Button
+  const deleteModalRef = useRef(null);
+
+  const [showDelModal, setShowDelModal] = useState(false);
+  const [delNoteDetails, setDelNoteDetails] = useState({ id: "", title: "" });
+
+  // Function calls and displays delete warning modal when delete icon is clicked.
+  const deleteModal = (id, title) => {
+    deleteModalRef.current.click();
+    setDelNoteDetails({ id, title });
+  };
+
+  // Delete function called on server side after user confirms delete in modal.
+  const deleteNoteOnServer = async () => {
+    const json = await deleteNote(delNoteDetails.id);
+    setShowDelModal(false);
+    const status = json.success ? "success" : "Error";
+    showAlert(json.message, status);
+  };
+
+  // –––––––––––––––––––––– Search Bar Functionality ––––––––––––––––––––––––
+  const getFilteredNotes = (query, notes) => {
+    if (!query) return notes;
+    return notes.filter((note) => note.title?.toLowerCase().includes(query));
+  };
+
+  const filteredNotes = getFilteredNotes(query, notes);
+
+  // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
   return (
     <>
+      {/* Show Alert if required */}
       {alert && <Alert alert={alert} />}
-      {/* <button
-        aria-label="Trigger Delete Button"
-        className="hidden"
-        ref={delref}
-        type="button"
-        onClick={deleteModal}
-      >
-        Button to trigger deleteNote function
-      </button> */}
+
+      {/* Your Notes Title */}
       <h1 className=" flex flex-wrap font-Montserrat justify-center mt-16 my-5 text-4xl  tracking-tight leading-none text-[#393E46]">
         Your{" "}
         <mark className="mx-4 px-2 text-white bg-[#FFC23C] rounded">Notes</mark>
@@ -125,8 +124,8 @@ function Notes() {
       <hr className="my-2 mx-auto w-48 h-1 bg-[#515150] rounded border-0"></hr>
 
       {/* Edit Modal */}
-      <div className="">
-        {/* Modal Button */}
+      <div>
+        {/* Hidden Modal Button */}
         <button
           className="hidden transition
           delay-1500
@@ -251,7 +250,7 @@ function Notes() {
 
       {/* Delete Modal */}
       <div className="">
-        {/* Modal Button */}
+        {/*Hidden Modal Button */}
         <button
           className="hidden transition
           delay-1500
@@ -314,7 +313,11 @@ function Notes() {
           </>
         ) : null}
       </div>
+
+      {/* Show Empty notes GIF when no notes available */}
       {notes.length === 0 && <EmptyNotes />}
+
+      {/* Display Notes */}
       <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row my-8">
         {filteredNotes.map((note, i) => {
           return (
