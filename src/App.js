@@ -13,8 +13,8 @@ function App() {
   return (
     <>
       <NoteState>
-        <Router>
-          <CredState>
+        <CredState>
+          <Router>
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
@@ -24,8 +24,8 @@ function App() {
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/profile" element={<Profile />} />
             </Routes>
-          </CredState>
-        </Router>
+          </Router>
+        </CredState>
       </NoteState>
     </>
   );
