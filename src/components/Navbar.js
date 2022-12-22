@@ -36,7 +36,7 @@ function Navbar() {
   return (
     <>
       <div>
-        <nav className="bg-[#FFE69A] sticky md:px-20 py-10">
+        <nav className="bg-[#FFE69A] shadow-lg sticky md:px-20 py-10">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 right-0 flex items-center sm:justify-between md:hidden">

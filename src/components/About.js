@@ -16,7 +16,7 @@ function About() {
     <>
       <Navbar />
       <div className="flex flex-col gap-4 justify-center font-Montserrat mt-10 items-center align-middle">
-        <h1 className="text-xl">CloudNotes Created by</h1>
+        <h1 className="text-xl opacity-60">CloudNotes Created by</h1>
         <div className="card ">
           <div className="card-info">
             <div className="card-avatar">

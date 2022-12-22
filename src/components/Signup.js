@@ -7,7 +7,7 @@ import Alert from "./Alert";
 
 function Signup() {
   const context = useContext(credContext);
-  const { userSignup, showAlert, alert } = context;
+  const { userSignup, showAlert, alert, loadingElement } = context;
   //   let history = useHistory();
   const navigate = useNavigate();
   const [cred, setCred] = useState({
@@ -19,7 +19,7 @@ function Signup() {
 
   const signup = async (e) => {
     e.preventDefault();
-
+    loadingElement("load", "signupIcon", "signupBtn");
     const json = await userSignup(cred.name, cred.email, cred.password);
     if (json.success) {
       localStorage.setItem("token", json.authToken);
@@ -112,11 +112,14 @@ function Signup() {
                 <div className="text-center flex justify-between lg:text-left">
                   <button
                     type="submit"
+                    id="#signupBtn"
                     disabled={cred.password !== cred.cpassword}
                     className="inline-block px-7 py-3 bg-[#22A39F] text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#6ECCAF] hover:shadow-lg focus:bg-[#22A39F] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#22A39F] active:shadow-lg transition duration-150 ease-in-out"
                     aria-label="Register Button"
                   >
-                    <i className="fa-solid fa-user-plus"></i>&nbsp; Register
+                    <i id="#signupIcon" className="fa-solid fa-user-plus"></i>
+                    &nbsp; Register&nbsp;{" "}
+                    <i id="#load" className="fa-solid hidden fa-spinner"></i>
                   </button>
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Already have an account?&nbsp;

@@ -20,7 +20,7 @@ function Addnote() {
 
   // Access credentials context and credentials states
   const credcontext = useContext(credContext);
-  const { showAlert } = credcontext;
+  const { showAlert, loadingElement } = credcontext;
 
   // Access note context and note states
   const context = useContext(noteContext);
@@ -37,6 +37,7 @@ function Addnote() {
   // Server side add note function called when user clicks on send/submit
   const addNewNote = async (e) => {
     e.preventDefault();
+    loadingElement("load", "send", "sendBtn", "span");
     const json = await addNote(note.title, note.description, note.tag);
     navigate("/home");
     const status = json.success ? "success" : "Error";
@@ -139,9 +140,16 @@ function Addnote() {
               </div>
             </div>
             <div className="flex items-center justify-end align-middle mx-auto mt-6">
-              <button aria-label="Submit new Note" type="submit">
-                <span data-tooltip="Send" data-flow="bottom">
-                  <i className="fa-regular hover:scale-x-110 fa-paper-plane fa-2xl text-[#495057]"></i>
+              <button aria-label="Submit new Note" id="#sendBtn" type="submit">
+                <span id="#span" data-tooltip="Send" data-flow="bottom">
+                  <i
+                    id="#send"
+                    className="fa-regular hover:scale-x-110 fa-paper-plane fa-xl text-[#495057]"
+                  ></i>
+                  <i
+                    id="#load"
+                    className="fa-solid hidden fa-xl  fa-spinner"
+                  ></i>
                 </span>
               </button>
             </div>

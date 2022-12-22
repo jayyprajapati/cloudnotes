@@ -11,7 +11,17 @@ function Notes() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       (async () => {
+        if (notes.length === 0) {
+          document.getElementById("#notes")?.classList.add("hidden");
+          document.getElementById("#load")?.classList.remove("hidden");
+          document.getElementById("#load")?.classList.add("animate-spin");
+          document.getElementById("#load")?.classList.add("flex");
+        }
+        //
         await getNotes();
+        // setLoader(true);
+        document.getElementById("#notes")?.classList.remove("hidden");
+        document.getElementById("#load")?.classList.add("hidden");
         setQuery("");
       })();
     } else {
@@ -30,8 +40,9 @@ function Notes() {
 
   // Access credentials context and credentials states
   const credcontext = useContext(credContext);
-  const { showAlert, alert } = credcontext;
+  const { showAlert, alert, loadingElement } = credcontext;
 
+  // const [loader, setLoader] = useState(false);
   // note states
   const [note, setNote] = useState({
     id: "",
@@ -68,6 +79,7 @@ function Notes() {
   // Edit function called on server side after user make changes and clicks update in modal.
   const editNoteOnServer = async (e) => {
     e.preventDefault();
+    loadingElement("load", "editIcon", "editBtn");
     const json = await editNote(
       note.id,
       note.etitle,
@@ -95,6 +107,7 @@ function Notes() {
 
   // Delete function called on server side after user confirms delete in modal.
   const deleteNoteOnServer = async () => {
+    loadingElement("load", "delIcon", "delBtn");
     const json = await deleteNote(delNoteDetails.id);
     setShowDelModal(false);
     const status = json.success ? "success" : "Error";
@@ -234,11 +247,19 @@ function Notes() {
                   </div>
                   <div className="flex items-center justify-end p-6 ">
                     <button
+                      id="#editBtn"
                       className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                       onClick={editNoteOnServer}
                     >
-                      <i className="fa-regular fa-circle-check"></i>&nbsp;
-                      Update
+                      <i
+                        id="#load"
+                        className="fa-solid opacity-60 hidden fa-spinner"
+                      ></i>
+                      <i
+                        id="#editIcon"
+                        className="fa-regular  fa-circle-check"
+                      ></i>
+                      &nbsp; Update
                     </button>
                   </div>
                 </div>
@@ -249,7 +270,7 @@ function Notes() {
       </div>
 
       {/* Delete Modal */}
-      <div className="">
+      <div>
         {/*Hidden Modal Button */}
         <button
           className="hidden transition
@@ -301,10 +322,16 @@ function Notes() {
                       <i className="fa-solid fa-xmark"></i>&nbsp; Cancel
                     </button>
                     <button
+                      id="#delBtn"
                       className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
                       onClick={deleteNoteOnServer}
                     >
-                      <i className="fa-regular fa-trash-can"></i>&nbsp; Delete
+                      <i
+                        id="#load"
+                        className="fa-solid opacity-60 hidden fa-spinner"
+                      ></i>
+                      <i id="#delIcon" className="fa-regular fa-trash-can"></i>
+                      &nbsp; Delete
                     </button>
                   </div>
                 </div>
@@ -314,22 +341,29 @@ function Notes() {
         ) : null}
       </div>
 
-      {/* Show Empty notes GIF when no notes available */}
-      {notes.length === 0 && <EmptyNotes />}
+      <i
+        id="#load"
+        className={`fa-solid hidden fa-spinner text-[50px] my-10 text-gray-500 justify-center`}
+      ></i>
 
-      {/* Display Notes */}
-      <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row my-8">
-        {filteredNotes.map((note, i) => {
-          return (
-            <div className="flex" key={i}>
-              <Noteitem
-                note={note}
-                updateNote={updateNote}
-                delNote={deleteModal}
-              />
-            </div>
-          );
-        })}
+      <div id="#notes">
+        {/* Show Empty notes GIF when no notes available */}
+        {notes.length === 0 && <EmptyNotes />}
+
+        {/* Display Notes */}
+        <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row gap-6 my-8 mx-5">
+          {filteredNotes.map((note, i) => {
+            return (
+              <div className="flex" key={i}>
+                <Noteitem
+                  note={note}
+                  updateNote={updateNote}
+                  delNote={deleteModal}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

@@ -6,6 +6,17 @@ const CredState = (props) => {
 
   const [user, setUser] = useState([]);
 
+  const loadingElement = (loadEl, rmEl, btn, span) => {
+    const load = document.getElementById(`#${loadEl}`);
+    load.classList.remove("hidden");
+    load.classList.add("animate-spin");
+    document.getElementById(`#${rmEl}`).classList.add("hidden");
+    document.getElementById(`#${btn}`)?.classList.add("opacity-60");
+    document.getElementById(`#${btn}`).style.cursor = "not-allowed";
+    document.getElementById(`#${btn}`)?.setAttribute("disabled", true);
+    document.getElementById(`#${span}`)?.removeAttribute("data-tooltip");
+  };
+
   // –––––––––––––––––––––––––– User Login ––––––––––––––––––––––––––
 
   const userLogin = async (email, password) => {
@@ -86,6 +97,7 @@ const CredState = (props) => {
         alert,
         userDetails,
         user,
+        loadingElement,
       }}
     >
       {props.children}

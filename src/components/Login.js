@@ -9,7 +9,7 @@ function Login() {
   const navigate = useNavigate();
   // Access credentials context and credentials states
   const context = useContext(credContext);
-  const { userLogin, showAlert, alert } = context;
+  const { userLogin, showAlert, alert, loadingElement } = context;
 
   // –––––––––––––––––––––– Login Functionality ––––––––––––––––––––––––
   // Credentials states
@@ -23,6 +23,8 @@ function Login() {
   // Server Side Authentication verified when user hit Login button
   const login = async (e) => {
     e.preventDefault();
+    loadingElement("load", "loginIcon", "loginBtn");
+
     // pass the credentials and wait for the server response
     const json = await userLogin(credentials.email, credentials.password);
 
@@ -116,8 +118,14 @@ function Login() {
                     type="submit"
                     className="inline-block px-7 py-3 bg-[#22A39F] text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#6ECCAF] hover:shadow-lg focus:bg-[#22A39F] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#22A39F] active:shadow-lg transition duration-150 ease-in-out"
                     aria-label="Login Button"
+                    id="#loginBtn"
                   >
-                    Login &nbsp;<i className="fa-solid fa-right-to-bracket"></i>
+                    <i id="#load" className="fa-solid hidden fa-spinner"></i>
+                    &nbsp; Login &nbsp;
+                    <i
+                      id="#loginIcon"
+                      className="fa-solid fa-right-to-bracket"
+                    ></i>
                   </button>
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Don't have an account?&nbsp;
