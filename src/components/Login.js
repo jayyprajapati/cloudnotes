@@ -39,6 +39,11 @@ function Login() {
     else {
       navigate("/login");
       showAlert(json.message, "Error");
+      document.getElementById(`#load`).classList.add("hidden");
+      document.getElementById(`#loginIcon`)?.classList.remove("hidden");
+      document.getElementById(`#loginBtn`)?.setAttribute("disabled", false);
+      document.getElementById(`#loginBtn`)?.classList.remove("opacity-60");
+      document.getElementById(`#loginBtn`).style.cursor = "pointer";
     }
   };
 
