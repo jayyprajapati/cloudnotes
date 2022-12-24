@@ -7,7 +7,7 @@ function About() {
   const navigate = useNavigate();
 
   const context = useContext(credContext);
-  const { user, userDetails } = context;
+  const { user, userDetails, loadWhileNoContent, stopLoading } = context;
 
   // const [loader, setLoader] = useState(false);
 
@@ -15,16 +15,12 @@ function About() {
     if (localStorage.getItem("token")) {
       // loadingElement("load", "name" )
       if (!user?.user?.name) {
-        document.getElementById("#info")?.classList.add("hidden");
-        document.getElementById("#load")?.classList.remove("hidden");
-        document.getElementById("#load")?.classList.add("animate-spin");
-        document.getElementById("#load")?.classList.add("flex");
+        loadWhileNoContent("info");
       }
 
       userDetails().then(() => {
         // setLoader(true);s
-        document.getElementById("#info")?.classList.remove("hidden");
-        document.getElementById("#load")?.classList.add("hidden");
+        stopLoading("info");
       });
     } else {
       navigate("/login");

@@ -17,6 +17,17 @@ const CredState = (props) => {
     document.getElementById(`#${span}`)?.removeAttribute("data-tooltip");
   };
 
+  const loadWhileNoContent = (el) => {
+    document.getElementById(`#${el}`)?.classList.add("hidden");
+    document.getElementById("#load")?.classList.remove("hidden");
+    document.getElementById("#load")?.classList.add("animate-spin");
+    document.getElementById("#load")?.classList.add("flex");
+  };
+
+  const stopLoading = (el) => {
+    document.getElementById(`#${el}`)?.classList.remove("hidden");
+    document.getElementById("#load")?.classList.add("hidden");
+  };
   // –––––––––––––––––––––––––– User Login ––––––––––––––––––––––––––
 
   const userLogin = async (email, password) => {
@@ -98,6 +109,8 @@ const CredState = (props) => {
         userDetails,
         user,
         loadingElement,
+        loadWhileNoContent,
+        stopLoading,
       }}
     >
       {props.children}
