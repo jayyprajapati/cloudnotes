@@ -29,6 +29,18 @@ function Alert(props) {
           </div>
         </div>
       )}
+      {props.alert && props.alert.type === "info" && (
+        <div
+          id="alert-border-3 "
+          className={`flex align-middle items-center absolute left-0 right-0 mr-auto ml-auto p-4 mb-4 bg-blue-200 border-t-4 border-blue-600 rounded-b-md justify-center `}
+          role="alert"
+        >
+          <i className={`fa-solid text-md text-blue-600 fa-circle-info`}></i>
+          <div className={`ml-3 text-md font-medium text-blue-700`}>
+            {`${props.alert.msg}`}
+          </div>
+        </div>
+      )}
     </>
   );
 }

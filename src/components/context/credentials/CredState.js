@@ -70,7 +70,7 @@ const CredState = (props) => {
 
   const [alert, setAlert] = useState(null);
 
-  const showAlert = (message, type) => {
+  const showAlert = (message, type, delay = 1500) => {
     // Set alert type and message and display it
     setAlert({
       msg: message,
@@ -78,7 +78,7 @@ const CredState = (props) => {
     });
     setTimeout(() => {
       setAlert(null);
-    }, 1500);
+    }, delay);
   };
 
   // –––––––––––––––––––––––––– Get user Details ––––––––––––––––––––––––––

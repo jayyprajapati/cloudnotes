@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import loginImg from "./imgs/Add notes-bro.png";
 import siteLogo from "./imgs/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +10,15 @@ function Login() {
   // Access credentials context and credentials states
   const context = useContext(credContext);
   const { userLogin, showAlert, alert, loadingElement } = context;
+
+  useEffect(() => {
+    showAlert(
+      "It's frustrating, but the MongoDB Atlas free tier is a bit slower than you'd expect. So please be patient :)",
+      "info",
+      15000
+    );
+    //eslint-disable-next-line
+  }, []);
 
   // –––––––––––––––––––––– Login Functionality ––––––––––––––––––––––––
   // Credentials states
