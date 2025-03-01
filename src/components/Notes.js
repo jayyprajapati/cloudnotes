@@ -9,14 +9,17 @@ import DeleteModal from "./modals/DeleteModal";
 import EditModal from "./modals/EditModal";
 
 function Notes() {
+  const [isContentLoading, setIsContentLoading] = useState(false);
   // Load the user note after login
   useEffect(() => {
     if (localStorage.getItem("token")) {
       if (notes.length === 0) {
-        loadWhileNoContent("notes");
+        // loadWhileNoContent("notes");
+        setIsContentLoading(true);
       }
       getNotes().then(() => {
-        stopLoading("notes");
+        // stopLoading("notes");
+        setIsContentLoading(false);
         setQuery("");
       });
     } else {
@@ -35,7 +38,7 @@ function Notes() {
 
   // Access credentials context and credentials states
   const credcontext = useContext(credContext);
-  const { showAlert, alert, loadingElement, loadWhileNoContent, stopLoading } =
+  const { showAlert, alert, loadingElement } =
     credcontext;
 
   // const [loader, setLoader] = useState(false);
@@ -185,30 +188,31 @@ function Notes() {
         ) : null}
       </div>
 
-      <i
+      {isContentLoading ? 
+        <i
         id="#load"
-        className={`fa-solid hidden fa-spinner text-[50px] my-10 text-gray-500 justify-center`}
-      ></i>
-
+        className={`fa-solid flex fa-spinner animate-spin text-[50px] my-10 text-gray-500 justify-center`}
+      ></i> : 
       <div id="#notes">
-        {/* Show Empty notes GIF when no notes available */}
-        {notes.length === 0 && <EmptyNotes />}
+      {/* Show Empty notes GIF when no notes available */}
+      {notes.length === 0 && <EmptyNotes />}
 
-        {/* Display Notes */}
-        <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row gap-6 my-8 mx-5">
-          {filteredNotes.map((note, i) => {
-            return (
-              <div className="flex" key={i}>
-                <Noteitem
-                  note={note}
-                  updateNote={updateNote}
-                  delNote={deleteModal}
-                />
-              </div>
-            );
-          })}
-        </div>
+      {/* Display Notes */}
+      <div className=" grid lg:grid-cols-3 md:grid-cols-2 content-evenly grid-cols-1 grid-flow-row gap-6 my-8 mx-5">
+        {filteredNotes.map((note, i) => {
+          return (
+            <div className="flex" key={i}>
+              <Noteitem
+                note={note}
+                updateNote={updateNote}
+                delNote={deleteModal}
+              />
+            </div>
+          );
+        })}
       </div>
+    </div>
+      }
     </>
   );
 }

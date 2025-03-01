@@ -17,21 +17,23 @@ const CredState = (props) => {
     document.getElementById(`#${span}`)?.removeAttribute("data-tooltip");
   };
 
-  const loadWhileNoContent = (el) => {
-    document.getElementById(`#${el}`)?.classList.add("hidden");
-    document.getElementById("#load")?.classList.remove("hidden");
-    document.getElementById("#load")?.classList.add("animate-spin");
-    document.getElementById("#load")?.classList.add("flex");
-  };
+  // const loadWhileNoContent = (el) => {
+  //   document.getElementById(`#${el}`)?.classList.add("hidden");
+  //   document.getElementById("#load")?.classList.remove("hidden");
+  //   document.getElementById("#load")?.classList.add("animate-spin");
+  //   document.getElementById("#load")?.classList.add("flex");
+  // };
 
-  const stopLoading = (el) => {
-    document.getElementById(`#${el}`)?.classList.remove("hidden");
-    document.getElementById("#load")?.classList.add("hidden");
-  };
+  // const stopLoading = (el) => {
+  //   document.getElementById(`#${el}`)?.classList.remove("hidden");
+  //   document.getElementById("#load")?.classList.add("hidden");
+  // };
   // –––––––––––––––––––––––––– User Login ––––––––––––––––––––––––––
 
   const userLogin = async (email, password) => {
     const url = `${host}/api/auth/login`;
+
+    console.log(`Login api called, auth in progress`);
     // send request to server
     const response = await fetch(url, {
       method: "POST",
@@ -43,6 +45,7 @@ const CredState = (props) => {
     });
     // wait for response
     const json = await response.json();
+    console.log(`Login api completed with message: ${json.message}`);
     // send response
     return json;
   };
@@ -51,6 +54,7 @@ const CredState = (props) => {
 
   const userSignup = async (name, email, password) => {
     const url = `${host}/api/auth/signup`;
+    console.log(`Signup api called, auth in progress`);
     // send request to server
     const response = await fetch(url, {
       method: "POST",
@@ -62,6 +66,7 @@ const CredState = (props) => {
     });
     // wait for response
     const json = await response.json();
+    console.log(`signup api completed with message: ${json.message}`);
     // send response
     return json;
   };
@@ -109,8 +114,8 @@ const CredState = (props) => {
         userDetails,
         user,
         loadingElement,
-        loadWhileNoContent,
-        stopLoading,
+        // loadWhileNoContent,
+        // stopLoading,
       }}
     >
       {props.children}

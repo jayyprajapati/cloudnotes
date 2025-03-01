@@ -7,7 +7,8 @@ import Alert from "./Alert";
 
 function Signup() {
   const context = useContext(credContext);
-  const { userSignup, showAlert, alert, loadingElement } = context;
+  const { userSignup, showAlert, alert } = context;
+  const [isLoginInProgress, setIsLoginInProgress] = useState(false);
   //   let history = useHistory();
   const navigate = useNavigate();
   const [cred, setCred] = useState({
@@ -19,15 +20,18 @@ function Signup() {
 
   const signup = async (e) => {
     e.preventDefault();
-    loadingElement("load", "signupIcon", "signupBtn");
+    // loadingElement("load", "signupIcon", "signupBtn");
+    setIsLoginInProgress(true);
     const json = await userSignup(cred.name, cred.email, cred.password);
     if (json.success) {
       localStorage.setItem("token", json.authToken);
       navigate("/home");
       showAlert(json.message, "success");
+      setIsLoginInProgress(false);
     } else {
       navigate("/login");
       showAlert(json.message, "Error");
+      setIsLoginInProgress(false);
     }
   };
 
@@ -113,13 +117,19 @@ function Signup() {
                   <button
                     type="submit"
                     id="#signupBtn"
-                    disabled={cred.password !== cred.cpassword}
+                    disabled={cred.password !== cred.cpassword || isLoginInProgress}
                     className="inline-block px-7 py-3 bg-[#22A39F] text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#6ECCAF] hover:shadow-lg focus:bg-[#22A39F] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#22A39F] active:shadow-lg transition duration-150 ease-in-out"
                     aria-label="Register Button"
                   >
-                    <i id="#signupIcon" className="fa-solid fa-user-plus"></i>
-                    &nbsp; Register&nbsp;{" "}
-                    <i id="#load" className="fa-solid hidden fa-spinner"></i>
+                    {isLoginInProgress ? 
+                    <i id="#load" className="fa-solid animate-spin fa-spinner"></i> :
+                      <>
+                        <i id="#signupIcon" className="mr-1 fa-solid fa-user-plus"></i>
+                        Register
+                      </>
+                    }
+                    
+                    
                   </button>
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Already have an account?&nbsp;

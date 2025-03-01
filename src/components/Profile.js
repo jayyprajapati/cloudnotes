@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import credContext from "./context/credentials/credContext";
@@ -7,7 +7,8 @@ function About() {
   const navigate = useNavigate();
 
   const context = useContext(credContext);
-  const { user, userDetails, loadWhileNoContent, stopLoading } = context;
+  const { user, userDetails } = context;
+  const [isContentLoading, setIsContentLoading] = useState(false);
 
   // const [loader, setLoader] = useState(false);
 
@@ -15,12 +16,14 @@ function About() {
     if (localStorage.getItem("token")) {
       // loadingElement("load", "name" )
       if (!user?.user?.name) {
-        loadWhileNoContent("info");
+        // loadWhileNoContent("info");
+        setIsContentLoading(true);
       }
 
       userDetails().then(() => {
         // setLoader(true);s
-        stopLoading("info");
+        // stopLoading("info");
+        setIsContentLoading(false);
       });
     } else {
       navigate("/login");
@@ -39,22 +42,28 @@ function About() {
               src="https://png.pngtree.com/png-vector/20190114/ourlarge/pngtree-vector-avatar-icon-png-image_313572.jpg"
               alt="Bonnie"
             />
-            <i
+            <>
+            {isContentLoading ? 
+              <i
               id="#load"
-              className={`fa-solid hidden fa-spinner text-[30px] my-5 text-gray-500 justify-center`}
-            ></i>
+              className={`fa-solid flex fa-spinner animate-spin text-[30px] my-5 text-gray-500 justify-center`}
+            ></i> :
             <div id="#info" className="font-Montserrat">
-              <h5 className="mb-1 text-xl font-medium text-gray-900">
-                Hey! &nbsp;
-                <span className="text-gray-500 font-semibold">
-                  {user?.user?.name}
-                </span>
-              </h5>
-              <span className="text-sm flex text-gray-500 items-center align-middle">
-                <i className="fa-regular fa-envelope"></i> &nbsp;
-                {user?.user?.email}
+            <h5 className="mb-1 text-xl font-medium text-gray-900">
+              Hey! &nbsp;
+              <span className="text-gray-500 font-semibold">
+                {user?.user?.name}
               </span>
-            </div>
+            </h5>
+            <span className="text-sm flex text-gray-500 items-center align-middle">
+              <i className="fa-regular fa-envelope"></i> &nbsp;
+              {user?.user?.email}
+            </span>
+          </div>
+            }
+            </>
+            
+            
           </div>
         </div>
       </div>
