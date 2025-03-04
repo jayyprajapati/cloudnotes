@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import noteContext from "./noteContext";
 
 const NoteState = (props) => {
-  const host = "https://cloudnotes-api-8ay5.onrender.com";
+  const host = process.env.BACKEND_API;
 
   const startingNotes = [];
   const [notes, setnotes] = useState(startingNotes);
