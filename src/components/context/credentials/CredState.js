@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import credContext from "./credContext.js";
 
 const CredState = (props) => {
-  const host = process.env.BACKEND_API;
+  const host = process.env.REACT_APP_BACKEND_API;
 
   const [user, setUser] = useState([]);
 
